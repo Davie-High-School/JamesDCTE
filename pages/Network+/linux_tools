@@ -1,0 +1,280 @@
+
+---
+title: "Linux CLI Tools for Network+ Certification"
+description: "Essential Linux command line tools for Network+ navigation and network configuration"
+---
+
+# Linux CLI Tools for CompTIA Network+
+
+This guide outlines the key Linux command line tools and commands relevant to the CompTIA Network+ exam (N10-008), particularly for system navigation, interface configuration, and network diagnostics.
+
+---
+
+## 📁 1. Basic Linux Navigation & File Management
+
+### `pwd`
+- Prints the current working directory.
+```bash
+pwd
+```
+
+### `ls`
+- Lists directory contents.
+```bash
+ls
+ls -l        # long listing
+ls -a        # include hidden files
+```
+
+### `cd`
+- Changes directory.
+```bash
+cd /etc
+cd ~         # home directory
+```
+
+### `mkdir` / `rmdir`
+- Creates or removes a directory.
+```bash
+mkdir new_folder
+rmdir old_folder
+```
+
+### `cp`
+- Copies files or directories.
+```bash
+cp source.txt /home/user/
+cp -r dir1 dir2
+```
+
+### `mv`
+- Moves or renames files.
+```bash
+mv file.txt /tmp/
+mv oldname.txt newname.txt
+```
+
+### `rm`
+- Removes files or directories.
+```bash
+rm file.txt
+rm -r folder/
+```
+
+### `cat` / `less` / `more`
+- Displays file content.
+```bash
+cat file.txt
+less file.txt
+more file.txt
+```
+
+---
+
+## 🌐 2. Network Interface Configuration & Status
+
+### `ip` (replacement for `ifconfig`)
+- Shows and configures IP addresses.
+```bash
+ip a                # show all interfaces
+ip link set eth0 up # enable interface
+ip addr add 192.168.1.10/24 dev eth0  # set static IP
+```
+
+### `ifconfig` *(deprecated but still referenced)*
+- Displays interface configurations.
+```bash
+ifconfig
+ifconfig eth0 up
+```
+
+### `ip route`
+- Displays or sets the IP routing table.
+```bash
+ip route show
+ip route add default via 192.168.1.1
+```
+
+### `nmcli`
+- NetworkManager command-line interface.
+```bash
+nmcli device status
+nmcli connection show
+nmcli con up id "Wired connection 1"
+```
+
+
+### Editing Network Interfaces with `nano`
+
+In some Linux distributions (especially Debian-based systems), you may configure network interfaces via `/etc/network/interfaces`.
+
+#### Open the interfaces file:
+```bash
+sudo nano /etc/network/interfaces
+```
+
+#### Example static IP configuration:
+```bash
+auto eth0
+iface eth0 inet static
+  address 192.168.1.100
+  netmask 255.255.255.0
+  gateway 192.168.1.1
+  dns-nameservers 8.8.8.8 8.8.4.4
+```
+
+After editing and saving the file:
+```bash
+sudo systemctl restart networking
+```
+
+:::tip
+Use `CTRL+O` to save and `CTRL+X` to exit in `nano`.
+:::
+
+---
+
+## 🧪 3. Network Troubleshooting & Diagnostics
+
+### `ping`
+- Tests reachability of a host.
+```bash
+ping 8.8.8.8
+ping google.com
+```
+
+### `traceroute`
+- Traces route packets take to destination.
+```bash
+traceroute google.com
+```
+
+### `netstat` / `ss`
+- Displays network connections, routing tables, interface stats.
+```bash
+netstat -tuln
+ss -tuln
+```
+
+### `dig` / `nslookup`
+- DNS lookup tools.
+```bash
+dig google.com
+nslookup google.com
+```
+
+### `host`
+- Simple DNS lookup.
+```bash
+host google.com
+```
+
+### `curl` / `wget`
+- Fetches content from web servers.
+```bash
+curl http://example.com
+wget http://example.com/file.zip
+```
+
+---
+
+## 🔒 4. Permissions & Ownership
+
+### `chmod`
+- Changes file permissions.
+```bash
+chmod 755 script.sh
+chmod u+x script.sh
+```
+
+### `chown`
+- Changes file ownership.
+```bash
+chown user:group file.txt
+```
+
+### `ls -l`
+- Shows permissions and ownership.
+```bash
+ls -l
+```
+
+---
+
+## 🧰 5. System Info & Interface Utilities
+
+### `uname`
+- Displays system info.
+```bash
+uname -a
+```
+
+### `hostname` / `hostnamectl`
+- Shows or sets the system's hostname.
+```bash
+hostname
+hostnamectl set-hostname new-host
+```
+
+### `top` / `htop`
+- Real-time system usage.
+```bash
+top
+htop   # may need to install
+```
+
+### `df` / `du`
+- Disk usage and space.
+```bash
+df -h
+du -sh *
+```
+
+### `whoami` / `id`
+- Shows user identity.
+```bash
+whoami
+id
+```
+
+---
+
+## 📜 6. Log Files & Monitoring
+
+### `journalctl`
+- Views logs from systemd.
+```bash
+journalctl
+journalctl -u NetworkManager
+```
+
+### `dmesg`
+- Kernel ring buffer messages.
+```bash
+dmesg | grep eth
+```
+
+### `/var/log/`
+- Default system log directory.
+```bash
+cat /var/log/syslog
+cat /var/log/messages
+```
+
+---
+
+## ✅ 7. Useful Tips for Exam
+
+- Focus on `ip`, `ping`, `traceroute`, `netstat/ss`, `dig`, `host`, and `nmcli`.
+- Know how to assign static IPs and bring interfaces up/down.
+- Be able to read interface stats and DNS results from CLI.
+- Practice using `man` pages for built-in help.
+
+```bash
+man ip
+man ping
+```
+
+---
+
+_This guide aligns with the CompTIA Network+ objectives covering network tools and command-line utilities used in Linux-based systems._
